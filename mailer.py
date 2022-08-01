@@ -1,0 +1,68 @@
+import smtplib
+from email.message import EmailMessage
+import pandas as pd
+from tqdm import tqdm
+from dotenv import load_dotenv
+from time import sleep
+import os
+
+
+def read_info():
+    df = pd.read_excel("test_xl.xlsx")
+    print(df)
+    names = df['Name'].to_list()
+    emails = df['Email'].to_list()
+    rolls = df['Roll'].to_list()
+    print(names)
+    print(emails)
+    print(rolls)
+    return emails, names, rolls
+
+
+def send_mail():
+    load_dotenv()
+
+    email_sender = 'owaspviit@gmail.com'
+    email_password = os.getenv("PASSWORD")
+    #email_receiver = ['sasivatsal7122@gmail.com','likhithbavisetti@gmail.com','mallaharsha66@gmail.com','lokeshwarlakhi@gmail.com']
+    email_receiver = ['sasivatsal7122@gmail.com','vatsal7122@gmail.com','satya.sasivatsalbokka@owasp.org','20l31a5413@vignaniit.edu.in']
+    email_receiver = tqdm(email_receiver)
+    names = ['Satya Sasi Vatsal','Allu Arjun','The Legend Sarvanan','Vikranth Rona']
+
+    for email,name in zip(email_receiver,names):
+        Reciever_Email = email
+
+        smtp = smtplib.SMTP('smtp.gmail.com', 587)
+        smtp.ehlo()
+        smtp.starttls()
+
+        smtp.login(email_sender, email_password)
+
+        newMessage = EmailMessage()
+        
+        with open('subject.txt','r+') as f:
+            subject = f.readlines()
+        
+        with open('body.txt','r+') as f:
+            body = f.readlines()
+            
+        subject = ' '.join([str(char) for char in subject])
+        subject = subject.format(Name=name)
+        
+        body = ' '.join([str(char) for char in body])
+        body = body.format(Name=name)
+                
+        newMessage['Subject'] = subject
+        newMessage['From'] = email_sender
+        newMessage['To'] = Reciever_Email
+        newMessage.set_content(body)
+
+        smtp.sendmail(from_addr=email_sender, to_addrs=Reciever_Email, msg=newMessage.as_string())
+        sleep(.01)
+
+    smtp.quit()
+
+
+if __name__ == '__main__':  
+   # emails, names, rolls = read_info()
+    send_mail()
