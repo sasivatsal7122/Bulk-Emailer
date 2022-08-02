@@ -1,2 +1,2 @@
-*.env
-*pw_util.py
+.env
+pw_util.py
