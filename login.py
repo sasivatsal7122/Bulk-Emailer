@@ -20,7 +20,7 @@ def run_login():
     with file_path.open("rb")as file:
         names=pickle.load(file)
     
-    authenticator = stauth.Authenticate(names,usernames,hashed_passwords,cookie_name="clubmailer",key="abcdef",cookie_expiry_days=2)
+    authenticator = stauth.Authenticate(names,usernames,hashed_passwords)
     name,authentication_status,username=authenticator.login("Login","main")
 
     if authentication_status:
