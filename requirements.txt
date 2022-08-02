@@ -1,7 +1,7 @@
-pandas
-Pillow
-python-dotenv
-stqdm
-streamlit
-streamlit_authenticator
-tqdm
+pandas==1.4.2
+Pillow==9.2.0
+python-dotenv==0.20.0
+stqdm==0.0.4
+streamlit==1.10.0
+streamlit_authenticator==0.1.5
+tqdm==4.62.3
