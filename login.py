@@ -22,10 +22,15 @@ def run_login():
     
     authenticator = stauth.Authenticate(names,usernames,hashed_passwords,cookie_name='s',key='j')
     name,authentication_status,username=authenticator.login("Login","main")
+    
+    file_path = Path(__file__).parent/"pkl_creds/designation.pkl"
+    with file_path.open("rb")as file:
+        designation=pickle.load(file)
+
 
     if authentication_status:
         authenticator.logout('Logout', 'sidebar')
-        dashboard.main(username,name)
+        dashboard.main(username,name,designation[name])
         
     elif authentication_status == False:
         st.error('Username/password is incorrect')

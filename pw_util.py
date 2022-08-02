@@ -22,3 +22,10 @@ with file_path.open("wb")as file:
 file_path=Path(__file__).parent/"pkl_creds/names.pkl"
 with file_path.open("wb")as file:
     pickle.dump(names,file)
+    
+designation = {'Chief Secretary','Vice Secretary','Associate Secretary'}
+designation = dict(zip(names,designation))
+print(designation)
+file_path=Path(__file__).parent/"pkl_creds/designation.pkl"
+with file_path.open("wb")as file:
+    pickle.dump(designation,file)

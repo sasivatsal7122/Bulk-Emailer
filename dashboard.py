@@ -8,15 +8,16 @@ import os
 import time
 from stqdm import stqdm
 
-def main(usernames, user_names):
+def main(username, user_name,designation):
     st.title('#')
+    
     club = st.sidebar.selectbox(
         "Choose Club", ['OWASP-VIIT', 'Vigniters Club'])
     if club == 'OWASP-VIIT':
         owasp_header = Image.open('header.png')
         st.image(owasp_header)
-
-        st.header("Reading The Data")
+        st.title(f"Hello {user_name}")
+        st.text(f"{designation}, OWASP-VIIT")
         st.write("")
         st.write("")
         data_type = st.selectbox(
