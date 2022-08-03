@@ -101,7 +101,7 @@ def main(username, user_name,designation):
 
                 subject = email_subject.format(Name=name)
                 
-                with open(os.path.join("email_body",email_body.name),'r+') as f:
+                with open(os.path.join("email_body",'body.txt'),'r+') as f:
                     body = f.readlines()
                 
                 body = ' '.join([str(char) for char in body])
