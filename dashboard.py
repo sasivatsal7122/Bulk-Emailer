@@ -77,7 +77,7 @@ def main(username, user_name,designation):
                     f.write((email_body).getbuffer())
                 with open(os.path.join("email_body",'body.txt'),'r+') as f:
                     body = f.readlines()
-                st.write(body)
+                
 
         load_dotenv()
         email_sender = 'owaspviit@gmail.com'
