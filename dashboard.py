@@ -48,16 +48,16 @@ def main(username, user_name,designation):
             st.write("")
             st.write("")
             excel = st.file_uploader("Drop The Excel File")
-            #try:
-            df = pd.read_excel(excel, engine='openpyxl')
-            names = df['Name'].to_list()
-            emails = df['Email'].to_list()
-            with st.expander("Show Emails"):
-                st.json(emails)
-            with st.expander("Show Names"):
-                st.json(names)
-            #except:
-                #pass
+            try:
+                df = pd.read_excel(excel, engine='openpyxl')
+                names = df['Name'].to_list()
+                emails = df['Email'].to_list()
+                with st.expander("Show Emails"):
+                    st.json(emails)
+                with st.expander("Show Names"):
+                    st.json(names)
+            except:
+                pass
         
         st.write("")
         st.write("")
@@ -73,10 +73,11 @@ def main(username, user_name,designation):
             st.write("")
             email_body = st.file_uploader("Drop The Email Body")
             if email_body:
-                with open(os.path.join("email_body",email_body.name),"wb") as f:
+                with open(os.path.join("email_body",'body.txt'),"wb") as f:
                     f.write((email_body).getbuffer())
-                with open(os.path.join("email_body",email_body.name),'r+') as f:
+                with open(os.path.join("email_body",'body.txt'),'r+') as f:
                     body = f.readlines()
+                st.write(body)
 
         load_dotenv()
         email_sender = 'owaspviit@gmail.com'
