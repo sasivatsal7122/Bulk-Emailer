@@ -7,13 +7,15 @@ from dotenv import load_dotenv
 import os
 import time
 from stqdm import stqdm
+from pathlib import Path
+import pickle
 
-def mailer_util(user_name,designation):
+def mailer_util(user_name,designation,club,club_email):
     st.title('#')
-    owasp_header = Image.open('header.png')
-    st.image(owasp_header)
+    header_img = Image.open('header.png')
+    st.image(header_img)
     st.title(f"Hello {user_name}")
-    st.text(f"{designation}, OWASP-VIIT")
+    st.text(f"{designation}, {club}")
     st.write("")
     st.write("")
     data_type = st.selectbox(
@@ -38,8 +40,7 @@ def mailer_util(user_name,designation):
                     st.json(names)
             except:
                 pass
-            
-        
+
     else:
         st.write("")
         st.write("")
@@ -74,10 +75,9 @@ def mailer_util(user_name,designation):
             with open(os.path.join("email_body",'body.txt'),'r+') as f:
                 body = f.readlines()
             
-
     load_dotenv()
-    email_sender = 'owaspviit@gmail.com'
-    email_password = os.getenv("PASSWORD")
+    email_sender = club_email
+    email_password = os.getenv(f"{club}-PASSWORD")
 
     email_receiver = emails
     send_emails = st.button("Send All The emails")
@@ -113,11 +113,27 @@ def mailer_util(user_name,designation):
             time.sleep(0.5)
         smtp.quit()
             
-def main(username, user_name,designation):
+            
+def main(user_name):
     club = st.sidebar.selectbox(
         "Choose Club", ['OWASP-VIIT', 'Vigniters Club'])
-    if club=='OWASP_VIIT':
+    
+    file_path = Path(__file__).parent/"pkl_creds/OWASP_VIIT_designation.pkl"
+    with file_path.open("rb")as file:
+        owasp_designation=pickle.load(file)
         
-        mailer_util(user_name,designation)
+    file_path = Path(__file__).parent/"pkl_creds/VIGNITERS_designation.pkl"
+    with file_path.open("rb")as file:
+        vigniters_designation=pickle.load(file)
+
+    if user_name in owasp_designation.keys():
+        auth_token = 'OWASP-VIIT' 
     else:
-        mailer_util(user_name,designation)
+        auth_token = 'VIGNITERS'
+        
+    if club=='OWASP-VIIT' and auth_token == 'OWASP-VIIT':
+        mailer_util(user_name,owasp_designation,'OWASP-VIIT','owaspviit@gmail.com')
+    elif club=='VIGNITERS' and auth_token == 'VIGNITERS':
+        mailer_util(user_name,vigniters_designation,'VIGNITERS','vignansiit.d2cigniters@gmail.com')
+    else:
+        st.error("You Are Not Authorised to view this section")
