@@ -79,6 +79,10 @@ def mailer_util(user_name, designation, club_name, club_email):
                 f.write((email_body).getbuffer())
             with open(os.path.join("email_body", 'body.txt'), 'r+') as f:
                 body = f.readlines()
+            exp_body =' '.join([str(char) for char in body])
+            with st.expander('Show Email Body'):
+                st.write(exp_body)
+        
     def attach_file_to_email(newMessage, file_name, file_extension):
         with open(os.path.join("attachments", f'attachment.{file_extension}'), "rb") as fp:
             file_data = fp.read()
