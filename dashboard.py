@@ -10,11 +10,13 @@ from stqdm import stqdm
 from pathlib import Path
 import pickle
 import mimetypes
+from string import Template
+
 
 
 def mailer_util(user_name, designation, club_name, club_email):
     st.title('#')
-    header_img = Image.open(F'{club_name}-header.png')
+    header_img = Image.open(F'headers/{club_name}-header.png')
     st.image(header_img)
     st.title(f"Hello {user_name}")
     st.text(f"{designation}, {club_name}")
@@ -77,7 +79,6 @@ def mailer_util(user_name, designation, club_name, club_email):
                 f.write((email_body).getbuffer())
             with open(os.path.join("email_body", 'body.txt'), 'r+') as f:
                 body = f.readlines()
-
     def attach_file_to_email(newMessage, file_name, file_extension):
         with open(os.path.join("attachments", f'attachment.{file_extension}'), "rb") as fp:
             file_data = fp.read()
@@ -111,15 +112,27 @@ def mailer_util(user_name, designation, club_name, club_email):
             newMessage = EmailMessage()
             Reciever_Email = email
             subject = email_subject.format(Name=name)
+            
             with open(os.path.join("email_body", 'body.txt'), 'r+') as f:
                 body = f.readlines()
+                
+            with open('html_body.html','r+',encoding='utf-8') as f:
+                html_body = f.readlines()
+                
+            body=list(map(lambda x: x.replace('\n','<br>'),body))
             body = ' '.join([str(char) for char in body])
-            body = body.format(Name=name)
+            
+            
+            html_body = ' '.join([str(char) for char in html_body])
+            html_body = Template(html_body)
+            html_body = html_body.substitute(Name=name,Body=body)
+                
 
             newMessage['Subject'] = subject
             newMessage['From'] = email_sender
             newMessage['To'] = Reciever_Email
-            newMessage.set_content(body)
+            newMessage.set_content(html_body,subtype='html')
+            
             if file_attachment:
                 attach_file_to_email(newMessage, file_name, file_extension)
 

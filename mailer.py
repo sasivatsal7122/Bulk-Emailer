@@ -5,6 +5,7 @@ from tqdm import tqdm
 from dotenv import load_dotenv
 from time import sleep
 import os
+from string import Template
 
 
 def read_info():
@@ -23,7 +24,8 @@ def send_mail():
     load_dotenv()
 
     email_sender = 'owaspviit@gmail.com'
-    email_password = os.getenv("PASSWORD")
+    email_password = os.getenv("OWASP-VIIT-PASSWORD")
+    print(email_sender, email_password)
     #email_receiver = ['sasivatsal7122@gmail.com','likhithbavisetti@gmail.com','mallaharsha66@gmail.com','lokeshwarlakhi@gmail.com']
     email_receiver = ['sasivatsal7122@gmail.com','vatsal7122@gmail.com','satya.sasivatsalbokka@owasp.org','20l31a5413@vignaniit.edu.in']
     email_receiver = tqdm(email_receiver)
@@ -40,22 +42,27 @@ def send_mail():
 
         newMessage = EmailMessage()
         
-        with open('subject.txt','r+') as f:
-            subject = f.readlines()
-        
-        with open('body.txt','r+') as f:
+        with open('email_body/body.txt','r+') as f:
             body = f.readlines()
             
-        subject = ' '.join([str(char) for char in subject])
+        with open('html_body.html','r+',encoding='utf-8') as f:
+            html_body = f.readlines()
+        
+            
+        subject = 'Hey dfgdgh {Name}'
         subject = subject.format(Name=name)
         
+        body=list(map(lambda x: x.replace('\n','<br>'),body))
         body = ' '.join([str(char) for char in body])
-        body = body.format(Name=name)
+                
+        html_body = ' '.join([str(char) for char in html_body])
+        html_body = Template(html_body)
+        html_body = html_body.substitute(Name=name,Body=body)
                 
         newMessage['Subject'] = subject
         newMessage['From'] = email_sender
         newMessage['To'] = Reciever_Email
-        newMessage.set_content(body)
+        newMessage.set_content(html_body,subtype='html')
 
         smtp.sendmail(from_addr=email_sender, to_addrs=Reciever_Email, msg=newMessage.as_string())
         sleep(.01)

@@ -1,11 +1,3 @@
-                                                         RESPONSE MAIL
-
-SUBJECT: ACKNOWLEDGEMENT FROM OWASP VIIT STUDENT CHAPTER
-
-BODY:
-
-Hello Sasi,
-
 Greetings from the team of OWASP VIIT student chapter. We thank you!!! for registering to our recruitment process application and letting us know your 
 interest for the requested position in the OWASP VIIT student chapter.
 
