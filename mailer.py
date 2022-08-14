@@ -27,9 +27,9 @@ def send_mail():
     email_password = os.getenv("OWASP-VIIT-PASSWORD")
     print(email_sender, email_password)
     #email_receiver = ['sasivatsal7122@gmail.com','likhithbavisetti@gmail.com','mallaharsha66@gmail.com','lokeshwarlakhi@gmail.com']
-    email_receiver = ['sasivatsal7122@gmail.com','vatsal7122@gmail.com','satya.sasivatsalbokka@owasp.org','20l31a5413@vignaniit.edu.in']
+    email_receiver = ['sasivatsal7122@gmail.com','vatsal7122@gmail.com']
     email_receiver = tqdm(email_receiver)
-    names = ['Satya Sasi Vatsal','Allu Arjun','The Legend Sarvanan','Vikranth Rona']
+    names = ['Satya Sasi Vatsal','Allu Arjun']
 
     for email,name in zip(email_receiver,names):
         Reciever_Email = email
