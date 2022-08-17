@@ -119,9 +119,11 @@ def mailer_util(user_name, designation, club_name, club_email):
             
             with open(os.path.join("email_body", 'body.txt'), 'r+') as f:
                 body = f.readlines()
-                
-            with open('html_body.html','r+',encoding='utf-8') as f:
-                html_body = f.readlines()
+            try:
+                with open(F'{club_name}-html_body.html','r+',encoding='utf-8') as f:
+                    html_body = f.readlines()
+            except:
+                st.error("NO HTML TEMPLATE FOUND")
                 
             body=list(map(lambda x: x.replace('\n','<br>'),body))
             body = ' '.join([str(char) for char in body])
@@ -147,23 +149,24 @@ def mailer_util(user_name, designation, club_name, club_email):
 
 
 def main(user_name):
-    club = st.sidebar.selectbox(
-        "Choose Club", ['OWASP-VIIT', 'Vigniters Club'])
-    if club:
-        file_path = Path(__file__).parent / \
+    club_ls = ['OWASP-VIIT', 'Vigniters Club']
+    file_path = Path(__file__).parent / \
             "pkl_creds/OWASP_VIIT_designation.pkl"
-        with file_path.open("rb")as file:
-            owasp_designation = pickle.load(file)
-        file_path = Path(__file__).parent/"pkl_creds/VIGNITERS_designation.pkl"
-        with file_path.open("rb")as file:
-            vigniters_designation = pickle.load(file)
-
-        if user_name in vigniters_designation.keys():
-            auth_token = 'VIGNITERS'
-        if user_name in owasp_designation.keys():
-            auth_token = 'OWASP-VIIT'
-        if (user_name in owasp_designation.keys()) and (user_name in vigniters_designation.keys()):
-            auth_token = 'OWASP-VIIT&VIGNITERS'
+    with file_path.open("rb")as file:
+        owasp_designation = pickle.load(file)
+    file_path = Path(__file__).parent/"pkl_creds/VIGNITERS_designation.pkl"
+    with file_path.open("rb")as file:
+        vigniters_designation = pickle.load(file)
+        
+    if user_name in vigniters_designation.keys():
+            auth_token = 'VIGNITERS'; club_n = 0
+    if user_name in owasp_designation.keys():
+        auth_token = 'OWASP-VIIT';club_n = 1
+    if (user_name in owasp_designation.keys()) and (user_name in vigniters_designation.keys()):
+        auth_token = 'OWASP-VIIT&VIGNITERS'; club =1
+    club = st.sidebar.selectbox(
+        "Choose Club", [club_ls[abs(1-club_n)], club_ls[club_n]])
+    if club:
 
         if club == 'OWASP-VIIT' and (auth_token == 'OWASP-VIIT' or auth_token == 'OWASP-VIIT&VIGNITERS'):
             mailer_util(

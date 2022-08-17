@@ -25,10 +25,10 @@ if __name__=='__main__':
     owasp_passwords=["7382117167","9391377120",'7989104871']
     owasp_designation = ['Chief Secretary','Vice Secretary','Associate Secretary']
 
-    vigniters_names=["Sasi Vatsal"]
-    vigniters_usernames = ["sasivatsal7122@gmail.com"]
-    vigniters_passwords=["7382117167"]
-    vigniters_designation = ['Chief Igniter']
+    vigniters_names=["Sasi Vatsal",'Sai Venkat']
+    vigniters_usernames = ["sasivatsal7122@gmail.com",'Sai Venkat']
+    vigniters_passwords=["7382117167","9014038339"]
+    vigniters_designation = ['Chief Igniter','Chief Igniter']
     
     c_names = owasp_names+vigniters_names
     c_usernames = owasp_usernames+vigniters_usernames

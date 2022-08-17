@@ -58,13 +58,13 @@ def send_mail():
         html_body = ' '.join([str(char) for char in html_body])
         html_body = Template(html_body)
         html_body = html_body.substitute(Name=name,Body=body)
-                
+        
         newMessage['Subject'] = subject
         newMessage['From'] = email_sender
         newMessage['To'] = Reciever_Email
         newMessage.set_content(html_body,subtype='html')
 
-        smtp.sendmail(from_addr=email_sender, to_addrs=Reciever_Email, msg=newMessage.as_string())
+        #smtp.sendmail(from_addr=email_sender, to_addrs=Reciever_Email, msg=newMessage.as_string())
         sleep(.01)
 
     smtp.quit()
