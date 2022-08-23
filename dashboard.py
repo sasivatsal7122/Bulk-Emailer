@@ -11,6 +11,7 @@ from pathlib import Path
 import pickle
 import mimetypes
 from string import Template
+import admindashboard
 
 
 
@@ -18,7 +19,7 @@ def mailer_util(user_name, designation, club_name, club_email):
     st.title('#')
     header_img = Image.open(F'headers/{club_name}-header.png')
     st.image(header_img)
-    st.title(f"Hello {user_name}")
+    st.title(f"Welcome {user_name}")
     st.text(f"{designation}, {club_name}")
     st.write("")
     st.write("")
@@ -165,7 +166,7 @@ def main(user_name):
     if (user_name in owasp_designation.keys()) and (user_name in vigniters_designation.keys()):
         auth_token = 'OWASP-VIIT&VIGNITERS'; club =1
     club = st.sidebar.selectbox(
-        "Choose Club", [club_ls[abs(1-club_n)], club_ls[club_n]])
+        "Choose Club", [club_ls[abs(1-club_n)], club_ls[club_n],"Admin Dashboard"])
     if club:
 
         if club == 'OWASP-VIIT' and (auth_token == 'OWASP-VIIT' or auth_token == 'OWASP-VIIT&VIGNITERS'):
@@ -175,6 +176,8 @@ def main(user_name):
         elif club == 'Vigniters Club' and (auth_token == 'VIGNITERS' or auth_token == 'OWASP-VIIT&VIGNITERS'):
             mailer_util(
                 user_name, vigniters_designation[user_name], 'VIGNITERS', 'vignansiit.d2cigniters@gmail.com')
+        elif club == 'Admin Dashboard':
+            admindashboard.dashboard(user_name)
         else:
             st.error(
                 "You Are Not Authorised to view this section, contact the owner for support")
