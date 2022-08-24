@@ -7,3 +7,4 @@ streamlit==1.10.0
 streamlit_authenticator==0.1.5
 tqdm==4.62.3
 openpyxl
+xlswriter

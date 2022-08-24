@@ -1,3 +1,4 @@
 .env
 pw_util.py
 test_data/
+email_data.json
