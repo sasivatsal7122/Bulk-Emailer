@@ -11,8 +11,9 @@ from pathlib import Path
 import pickle
 import mimetypes
 from string import Template
-import admindashboard
 
+import admindashboard
+import database as db
 
 
 def mailer_util(user_name, designation, club_name, club_email):
@@ -104,9 +105,10 @@ def mailer_util(user_name, designation, club_name, club_email):
     email_password = os.getenv(f"{club_name}-PASSWORD")
 
     email_receiver = emails
-    send_emails = st.button("Send All The emails")
+    send_emails = st.button("Send Emails")
 
     if send_emails:
+        db.add_log(user_name,designation,len(email_receiver))
         smtp = smtplib.SMTP('smtp.gmail.com', 587)
         smtp.ehlo()
         smtp.starttls()
@@ -150,6 +152,7 @@ def mailer_util(user_name, designation, club_name, club_email):
 
 
 def main(user_name):
+    
     club_ls = ['OWASP-VIIT', 'Vigniters Club']
     file_path = Path(__file__).parent / \
             "pkl_creds/OWASP_VIIT_designation.pkl"
@@ -170,10 +173,12 @@ def main(user_name):
     if club:
 
         if club == 'OWASP-VIIT' and (auth_token == 'OWASP-VIIT' or auth_token == 'OWASP-VIIT&VIGNITERS'):
+            db.add_log(user_name,owasp_designation[user_name],0)
             mailer_util(
                 user_name, owasp_designation[user_name], 'OWASP-VIIT', 'owaspviit@gmail.com')
 
         elif club == 'Vigniters Club' and (auth_token == 'VIGNITERS' or auth_token == 'OWASP-VIIT&VIGNITERS'):
+            db.add_log(user_name,vigniters_designation[user_name],0)
             mailer_util(
                 user_name, vigniters_designation[user_name], 'VIGNITERS', 'vignansiit.d2cigniters@gmail.com')
         elif club == 'Admin Dashboard':

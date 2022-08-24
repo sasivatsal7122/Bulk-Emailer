@@ -38,8 +38,8 @@ def dashboard(name):
         if selected_name:
             select_attribute = st.selectbox("Select Attribute to be Updated",("USERNAME","USER_DESIGNATION","USER-EMAIL","PASS_WORD"))
             if select_attribute:
-                new_val = st.text_input("Enter New Value: ")
-                update_btn = st.button("Update the Value")
+                new_val = st.text_input(f"Enter New {select_attribute}: ")
+                update_btn = st.button(f"Update {select_attribute}")
                 if update_btn:
                     db.edit_user_data(select_attribute,new_val,selected_name)
                     tdict = dict(zip(["USERNAME","USER_DESIGNATION","USER-EMAIL","PASS_WORD"],result[0]))
@@ -68,4 +68,9 @@ def dashboard(name):
                     new_df=pd.DataFrame(result,columns=["USERNAME","USER-DESIGNATION","USER-EMAIL","PASSWORD"])
                     new_df.index += 1 
                     st.dataframe(new_df)
+    ccol1,ccol2  = st.columns(2)
+    with ccol1:
+        st.subheader("Login History")    
+    with ccol2:
+        st.subheader("Mailing History")
     
