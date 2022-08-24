@@ -5,20 +5,17 @@ from pathlib import Path
 
 # local imports
 import dashboard
+import database as db
 
 def run_login():
     st.set_page_config(page_title="Bulk Club Mailer",page_icon="📨")
-    file_path = Path(__file__).parent/"pkl_creds/pw.pkl"
-    with file_path.open("rb")as file:
-        hashed_passwords=pickle.load(file)
-        
-    file_path = Path(__file__).parent/"pkl_creds/usernames.pkl"
-    with file_path.open("rb")as file:
-        usernames=pickle.load(file)
-        
-    file_path = Path(__file__).parent/"pkl_creds/names.pkl"
-    with file_path.open("rb")as file:
-        names=pickle.load(file)
+
+    names = [];usernames=[];hashed_passwords = []
+    login_details = db.view_all_data()
+    for i in login_details:
+        names.append(i[0])
+        usernames.append(i[2])
+        hashed_passwords.append(i[3])
     
     authenticator = stauth.Authenticate(names,usernames,hashed_passwords,cookie_name='s',key='j',cookie_expiry_days=1)
     name,authentication_status,username=authenticator.login("Login","main")

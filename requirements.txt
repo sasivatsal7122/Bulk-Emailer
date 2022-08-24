@@ -1,6 +1,7 @@
 pandas==1.4.2
 Pillow==9.2.0
 python-dotenv==0.20.0
+pyxlsb==1.0.9
 stqdm==0.0.4
 streamlit==1.10.0
 streamlit_authenticator==0.1.5

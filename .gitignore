@@ -1,4 +1,4 @@
 .env
 pw_util.py
-pkl_creds/
 test_data/
+email_data.json
