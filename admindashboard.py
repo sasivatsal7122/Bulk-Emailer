@@ -79,6 +79,7 @@ def dashboard(name):
     logs = db.get_logs()  
     new_df=pd.DataFrame(logs,columns=["LOGGED ON","LOGGED AT",'LOGGED IN BY',"DESIGNATION",'MAILL_COUNT'])
     new_df.drop(['MAILL_COUNT'], axis=1,inplace=True)
+    new_df = new_df.iloc[::-1]
     new_df.index += 1 
     st.dataframe(new_df)  
         
@@ -88,6 +89,7 @@ def dashboard(name):
     new_df.drop(['SENT AT'], axis=1,inplace=True)
     columns_titles = ['SENT ON',"NO.OF MAILS SENT","SENT BY"]
     new_df=new_df.reindex(columns=columns_titles)
+    new_df = new_df.iloc[::-1]
     new_df.index += 1 
     st.dataframe(new_df) 
     

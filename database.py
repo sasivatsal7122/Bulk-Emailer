@@ -32,13 +32,17 @@ def add_log(username,designation,mailcount=0):
     now = datetime.now()
     current_time = now.strftime("%H:%M:%S")
     
-    c.execute('SELECT USERNAME FROM LOGS')
+    c.execute('SELECT USERNAME FROM LOGS WHERE DATE=?',(current_date,))
     data = c.fetchall()
     USER_LOGS_LS = data; USER_LOGS_LS = [item for t in data for item in t] ; 
     
     if username in USER_LOGS_LS:
         c.execute('SELECT MAILL_COUNT FROM LOGS WHERE DATE=? and USERNAME=?',(current_date,username,))
-        present_mail_count = c.fetchall(); present_mail_count = present_mail_count[0][0]
+        present_mail_count = c.fetchall(); 
+        if len(present_mail_count)>0:
+            present_mail_count = present_mail_count[0][0]
+        else:
+            present_mail_count = 0 
         c.execute(f"UPDATE LOGS SET MAILL_COUNT=? WHERE DATE=? and USERNAME=?",(int(present_mail_count)+mailcount,current_date,username,))
         conn.commit()
     else:

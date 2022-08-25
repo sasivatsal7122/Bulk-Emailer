@@ -145,7 +145,7 @@ def mailer_util(user_name, designation, club_name, club_email):
             newMessage['From'] = email_sender
             newMessage['To'] = Reciever_Email
             newMessage.set_content(html_body,subtype='html')
-            
+    
             if file_attachment:
                 attach_file_to_email(newMessage, file_name, file_extension)
             try:
